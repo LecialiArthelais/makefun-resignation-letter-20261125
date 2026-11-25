@@ -58,6 +58,16 @@ def main() -> None:
     with open("/output/entry.txt", "w", encoding="utf-8") as f:
         f.write(LETTER + "\n")
 
+    # Read-back verification: re-read what was just written and fail
+    # loudly if the file on disk is not byte-for-byte the letter plus one
+    # trailing newline. A silent short write or encoding slip must never
+    # reach the grader as a valid-looking run.
+    with open("/output/entry.txt", "r", encoding="utf-8") as f:
+        written = f.read()
+    assert written == LETTER + "\n", (
+        "read-back mismatch: /output/entry.txt does not match the letter"
+    )
+
 
 if __name__ == "__main__":
     main()
